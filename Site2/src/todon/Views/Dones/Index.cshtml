@@ -1,0 +1,44 @@
+@model IEnumerable<todon.Models.Done>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h2>Index</h2>
+
+<p>
+    <a asp-action="Create">Create New</a>
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.DateDone)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.TaskId)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.UserId)
+        </th>
+        <th></th>
+    </tr>
+    
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.DateDone)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.TaskId)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.UserId)
+        </td>
+        <td>
+            <a asp-action="Edit" asp-route-id="@item.DoneId">Edit</a> |
+            <a asp-action="Details" asp-route-id="@item.DoneId">Details</a> |
+            <a asp-action="Delete" asp-route-id="@item.DoneId">Delete</a>
+        </td>
+    </tr>
+}
+</table>

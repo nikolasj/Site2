@@ -1,0 +1,90 @@
+@using todon.ViewModels.Categories
+@model CategoryViewModel
+
+@{
+    ViewData["Title"] = "Edit";
+}
+
+<h2>Edit</h2>
+<head>
+    
+</head>
+<form asp-action="Edit">
+    <div class="form-horizontal">
+        <h4>Category</h4>
+        <hr />
+        <div asp-validation-summary="ValidationSummary.All" class="text-danger"></div>
+        <input type="hidden" asp-for="CategoryID" />
+        <div class="form-group">
+            <label asp-for="Name" class="col-md-2 control-label"></label>
+            <div class="col-md-10">
+                <input asp-for="Name" class="form-control" />
+                <span asp-validation-for="Name" class="text-danger" />
+            </div>
+        </div>
+        <div class="form-group">
+        @if (Model.IsEditable)
+        {
+            <div class="form-group">
+                <label asp-for="ParentName" class="col-md-2 control-label"></label>
+                <div class="col-md-10">
+                    <select asp-for="ParentID" class="form-control" asp-items="Model.UserCategoriesRoot"></select>
+                </div>
+         </div>
+        }
+        else { }
+            <div class="form-group">
+                <label asp-for="Picture" class="col-md-2 control-label"></label>
+                <div class="col-md-10">
+                    <img src="@Model.PictureFullPath" style="width:100px" />
+                    <input asp-for="Picture" class="form-control" />
+                    <span asp-validation-for="Picture" class="text-danger" />
+                </div>
+            </div>   
+                @*<div class="form-group" >
+                    <label asp-for="UserId" class="col-md-2 control-label"></label>
+                    <div class="col-md-10">
+                        <input asp-for="UserId" class="form-control" />
+                        <span asp-validation-for="UserId" class="text-danger" />
+                    </div>
+                </div>*@
+                <div class="form-group">
+                    <div class="col-md-offset-2 col-md-10">
+                        <input type="submit" value="Save" class="btn btn-default" />
+                        <a asp-action="Delete" asp-route-id="@Model.CategoryID" class="btn btn-default">Delete</a>
+                    </div>
+                        
+                </div>
+
+            </div>
+        </div>
+</form>
+<form asp-action="UploadEdit" enctype="multipart/form-data" method="post">
+    <div class="form-horizontal">
+        <div class="form-group">
+            <label asp-for="Picture" class="col-md-2 control-label"></label>
+            <div class="col-md-10">
+                <input type='file' name='file' />
+                <input type="submit" value="Upload" />
+            </div>
+        </div>
+        <div class="form-group" style="display:none">
+            <label asp-for="ParentName" class="col-md-2 control-label"></label>
+            <div class="col-md-10">
+                <select asp-for="ParentID" class="form-control" asp-items="Model.UserCategoriesRoot" name="ParentID"></select>
+            </div>
+        </div>
+        <input type="hidden" asp-for="CategoryID" name="CategoryID" />
+        <div class="form-group" style="display:none">
+            <label asp-for="Name" class="col-md-2 control-label"></label>
+            <div class="col-md-10">
+                <input asp-for="Name" class="form-control" name="Name"/>
+                <span asp-validation-for="Name" class="text-danger" />
+            </div>
+        </div>
+        </div>
+</form>
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+

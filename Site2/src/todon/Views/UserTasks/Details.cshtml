@@ -1,0 +1,90 @@
+@model todon.ViewModels.UserTasks.UserTaskViewModel
+
+@{
+    ViewData["Title"] = "Details";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>UserTask</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        @*<dt>
+            @Html.DisplayNameFor(model => model.Picture)
+        </dt>*@
+        @*<dd>
+            <img src="@Model.PictureFullPath" width="50" height="50" />
+        </dd>*@
+        <dt>
+            @Html.DisplayNameFor(model => model.Name)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Name)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.CategoryName)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.CategoryName)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.DateStart)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.DateStart)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.DateEnd)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.DateEnd)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Description)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Description)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.DurationStr)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.DurationStr)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.ParentName)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.ParentName)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Period)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Period)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Place)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Place)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.PriorityName)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.PriorityName)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.TaskTypeName)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.TaskTypeName)
+        </dd>
+    </dl>
+</div>
+<p>
+    <a asp-action="Edit" asp-route-id="@Model.TaskId">Edit</a> |
+    <a asp-action="Index">Back to List</a>
+</p>

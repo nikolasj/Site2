@@ -1,0 +1,13 @@
+﻿@using todon.ViewModels.UserProfiles
+
+@model UserProfileViewModel
+@if (Model != null)
+{
+    <form asp-controller="Account" asp-action="LogOff" method="post" id="logoutForm" class="navbar-right">
+        <ul class="nav navbar-nav navbar-right">
+            <li>
+                <img src="@Model.Picture" width="45" height="48" style="padding-top:3px;"/>
+            </li>
+        </ul>
+    </form>
+}

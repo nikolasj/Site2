@@ -1,0 +1,28 @@
+﻿@using todon.ViewModels.Statistics
+@model StatisticsViewModel
+@{
+    ViewBag.Title = "TaskStatisticsLastMonthDiagram";
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>TaskStatisticsLastMonthDiagram</title>
+</head>
+<body>
+    <br />
+    <br />
+    <div>
+        <b>Общее количество задач за месяц:@Model.MonthCount</b><br />
+        @{
+            var myChart = new Chart(1000, 600).AddTitle("Статистика").AddSeries(
+                name: "TestInfo",
+                xValue: Model.DoneTasks.Keys,
+                yValues: Model.DoneTasks.Values).Write();
+        }
+
+    </div>
+</body>
+</html>

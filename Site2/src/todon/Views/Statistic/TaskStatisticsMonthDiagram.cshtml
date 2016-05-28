@@ -1,0 +1,136 @@
+﻿@using todon.ViewModels.Statistics
+
+
+@model StatisticsViewModel
+@{
+    ViewBag.Title = "TaskStatisticsMonthDiagram";
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <script type="text/javascript" src="http://www.chartjs.org/assets/Chart.js"></script>
+
+    <title>TaskStatisticsMonthDiagram</title>
+</head>
+<body>
+    <br />
+    <br />
+    <div>
+        <b>Общее количество задач за месяц:@Model.MonthCount</b><br />
+
+        <canvas id="canvas" height="300" width="500"></canvas>
+        <br /><br />
+        @*<canvas id="canvas2" height="300" width="500"></canvas>
+        <button id="add-btn">Add Data</button>*@
+            @*@Html.CreateChart("myCanvas", Model.Chart)*@
+
+    </div>
+    <script type="text/javascript" src="http://code.jquery.com/jquery-2.1.4.min.js"></script>
+    @*<script src="~/js/app.js"></script>*@
+    <input type="hidden" value="@String.Join(";",Model.listDoneTasks.Select(x => x.ToString()).ToArray())" id="MonthData" />
+    <script>
+
+        function WCFJSON() {          
+            Type = "POST";
+            Url = "http://localhost:45271/Service1.svc/GetMonthData";
+            Data = '{"value":"0"}';
+            ContentType = "application/json; charset=utf-8";
+            DataType = "json";
+            ProcessData = true;
+            CallService();
+        }
+
+        function CallService() {
+            $.ajax({
+                type: Type, //GET or POST or PUT or DELETE verb
+                url: Url, // Location of the service
+                data: Data, //Data sent to server
+                contentType: ContentType, // content type sent to server
+                dataType: DataType, //Expected data format from server
+                processdata: ProcessData, //True or False
+                success: function (msg) {//On Successfull service call
+                    ServiceSucceeded(msg);
+                },
+                error: ServiceFailed// When Service call fails
+            });
+        }
+
+        function ServiceFailed(result) {
+            alert('Service call failed: ' + result.status + '' + result.statusText);
+            Type = null;
+            varUrl = null;
+            Data = null;
+            ContentType = null;
+            DataType = null;
+            ProcessData = null;
+        }
+
+        function ServiceSucceeded(result) {
+            if (DataType == "json") {
+                resultObject = result.Message;
+
+                for (i = 0; i < resultObject.length; i++) {
+                    alert(resultObject[i]);
+                }
+
+            }
+
+        }
+
+        function ServiceFailed(xhr) {
+            alert(xhr.responseText);
+
+            if (xhr.responseText) {
+                var err = xhr.responseText;
+                if (err)
+                    error(err);
+                else
+                    error({ Message: "Unknown server error." })
+            }
+
+            return;
+        }
+
+        $(document).ready(
+            function () {
+                WCFJSON();
+            }
+        );
+
+       
+    </script>
+</body>
+</html>
+
+
+
+
+@*$(function () {
+        var labels_array = new Array();
+        var datas_array = $("#MonthData").val().split(';');
+        for(i=0;i<@Model.listDoneDay.Count;i++)
+        {
+            labels_array[i] = i+1;
+        }
+
+        var dataC = {
+            labels: labels_array,
+            datasets:
+             [
+                {
+                    fillColor: "rgba(172,194,132,0.4)",
+                    strokeColor: "#ACC26D",
+                    pointColor: "#fff",
+                    pointStrokeColor: "#9DB86D",
+                    data:datas_array
+                }
+             ]
+        }
+        var cv = document.getElementById('canvas').getContext('2d');
+
+        new Chart(cv).Line(dataC);
+
+    });*@

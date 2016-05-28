@@ -1,0 +1,70 @@
+@model todon.ViewModels.Categories.CategoryViewModel
+
+@{
+    ViewData["Title"] = "Create";
+}
+
+<h2>Create</h2>
+
+<form  asp-action="Create" >
+    <div class="form-horizontal">
+        <h4>Category</h4>
+        <hr />
+        <div asp-validation-summary="ValidationSummary.All" class="text-danger" ></div>
+        <div class="form-group" style="display:none">
+            <label asp-for="CategoryID" class="col-md-2 control-label"></label>
+            <div class="col-md-10">
+                <input asp-for="CategoryID" class="form-control" />
+                <span asp-validation-for="CategoryID" class="text-danger" />
+            </div>
+        </div>
+        <div class="form-group">
+            <label asp-for="Name" class="col-md-2 control-label"></label>
+            <div class="col-md-10">
+                <input asp-for="Name" class="form-control" />
+                <span asp-validation-for="Name" class="text-danger" />
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label asp-for="Picture" class="col-md-2 control-label"></label>
+            <div class="col-md-10">
+                <img src="@Model.PictureFullPath" style="width:100px" />
+                <input asp-for="Picture" class="form-control" />
+                <span asp-validation-for="Picture" class="text-danger" />
+            </div>
+        </div>    
+
+        <div class="form-group">
+            <label asp-for="ParentName" class="col-md-2 control-label"></label>
+            <div class="col-md-10">
+                <select asp-for="ParentID" class="form-control" asp-items="Model.UserCategories"></select>
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="Create" class="btn btn-default" />
+            </div>
+        </div>
+    </div>
+</form>
+<form asp-action="Upload" enctype="multipart/form-data" method="post">
+    <div class="form-horizontal">
+        <div class="form-group">
+            <label asp-for="Picture" class="col-md-2 control-label"></label>
+            <div class="col-md-10">
+                <input type='file' name='file' />
+                <input type="submit" value="Upload" />
+            </div>
+        </div>
+    </div>
+</form>
+<div>
+    <a asp-action="CategoriesView">Back to List</a>
+</div>
+
+
+
+@*@using (Html.BeginForm())
+{
+    @Html.ValidationSummary()*@

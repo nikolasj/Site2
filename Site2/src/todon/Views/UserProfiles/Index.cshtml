@@ -1,0 +1,42 @@
+@using todon.ViewModels.UserProfiles
+@model UserProfileViewModel
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h2>Index</h2>
+
+
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.UserName)
+            
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Mail)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Picture)
+        </th>
+        <th></th>
+    </tr>
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => Model.UserName)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => Model.Mail) 
+        </td>
+        <td>
+            @*@Html.DisplayFor(modelItem => item.Picture)*@
+            <img src="@Model.PictureFullPath" width="70" height="70" />         
+        </td>
+        <td>
+            <a asp-action="Edit" asp-route-id="@Model.UserId">Edit</a> |
+            <a asp-action="Details" asp-route-id="@Model.UserId">Details</a> |
+            @*<a asp-action="Delete" asp-route-id="@item.UserId">Delete</a>*@
+        </td>
+    </tr>
+</table>

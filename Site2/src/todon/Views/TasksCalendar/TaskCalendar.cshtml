@@ -1,0 +1,281 @@
+﻿@using todon.ViewModels.UserTasks
+@model UserTaskListViewModel
+
+@{
+    ViewData["Title"] = "TaskCalendar";
+}
+
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+
+    <meta name="viewport" content="width=device-width" />
+    <script src="~/js/jquery-1.9.1.js"></script>
+    <script src="~/js/PriorityStyle.js"></script>
+    <script src="~/js/checkboxForCalendar.js"></script>
+    <script src="~/js/calendarForDate.js"></script>
+    <script src="~/js/calendarForWeek.js"></script>
+    <script src="~/js/timeLineForTaskCalendar.js"></script>
+    <script src="~/js/checkboxCalendarPeriod.js"></script>
+    <title>TaskListView</title>
+    <style>
+        #TaskCalendarTime #CreateTask {
+            display: block; /* Ссылка как блочный элемент */
+            height: 100%; /* Высота на весь слой */
+            color: #666; /* Цвет ссылки */
+        }
+    </style>
+</head>
+<body>
+    <br />
+    <br />
+
+    @*<a href="/Task/TaskStatisticsMonth">Статистика за месяц</a><br />*@
+    <table>
+        <tr>
+            <td>
+                <b id="TimeNow" style="display:none; ">@Model.Date.TimeOfDay</b>
+                <b>Job List on @Model.Date.ToShortDateString() (@Model.Date.DayOfWeek)</b> &nbsp;
+                @*@using (Html.BeginForm("UpdateDateTask", "Task", FormMethod.Post, @Model.date))
+                    {*@
+
+                <input class="btn btn-primary" id="PreviousDay" type="button" value="<" onclick="javascript: { movetodate('@Model.Date.AddDays(-1).ToShortDateString()',false); return false; }" />
+                <input class="btn btn-primary" id="NextDay" type="button" value=">" onclick="javascript: { movetodate('@Model.Date.AddDays(+1).ToShortDateString()',false); return false; }" />
+                &nbsp;&nbsp;
+                <input class="btn btn-primary" id="Day" type="button" value="Day" @*onclick="javascript: { movetodate('@Model.Date.AddDays(-1).ToShortDateString()',false); return false; }" *@ />
+                <input class="btn btn-primary" id="Week" type="button" value="Week" onclick="javascript: { movetoweek('@Model.Date.ToShortDateString()',false); return false; }" />
+
+
+                <div class="form-group">
+                    <label for="inputDate">Enter the date:</label>
+                    <input id="TaskOfDateLabel" type="date" class="form-control" name="TaskOfDateLabel">
+                    <input class="btn btn-primary" id="TaskOfDate" type="button" value="Setting of the dateу" onclick="javascipt: movetodate($('#TaskOfDateLabel').val(), true); return false;" />
+                </div>
+            </td>
+        </tr>
+    </table>
+    <div style="float:left;">
+
+        <br />
+        @for (int i = 0; i <= 23; i++)
+            {
+                bool flagTime = true;
+                foreach (UserTaskViewModel t in Model.CalendarTasks)
+                {
+                    if (i == t.TimeHour && t.DateStart != null) //t.Date_start != null &&
+                    {
+                    <div id="TaskCalendarTime" style="width:480px; height:33px; background-color:#BEBEBE; margin-bottom:2px; display:block;">
+                        <a style="text-decoration: none;">@i:00</a>
+                        <a href="/UserTasks/Edit/@t.TaskId" style="text-decoration: none;" title="Изменить задачу!">@t.Name</a>
+                        @*<div style="display:inline-block">(@t.Duration)</div>*@
+                        <input id="CheckboxDone_@t.TaskId" type="checkbox" data-target="/TasksCalendar/MarkTaskDone/@t.TaskId" />
+                        @*<a href="/TasksCalendar/TaskMove/@t.TaskId">transfer</a>*@
+                    </div>
+                    flagTime = false;
+                }
+                if (i == t.TimeHour && t.DateStart == null) //t.Date_start != null &&
+                {
+                    <div id="TaskCalendarTime" style="width:480px; height:33px; background-color:#BEBEBE; margin-bottom:2px; display:block;">
+                        <a style="text-decoration: none">@i:00</a>
+                        <a href="/UserTasks/Edit/@t.TaskId" style="text-decoration: none;" title="Изменить задачу!">@t.Name</a>
+                        @*<div style=" display:inline-block">@t.Duration</div>*@
+                        <input id="CheckboxDone_@t.TaskId" type="checkbox" data-target="/TasksCalendar/MarkTaskDone/@t.TaskId" />
+                        @*<a href="/TasksCalendar/TaskMovePeriod/@t.TaskId">transfer</a>*@
+                    </div>
+                    flagTime = false;
+                }
+
+            }
+            if (flagTime)
+            {
+                <div id="TaskCalendarTime" style="width:480px; height:33px; background-color:#B0DCE0; margin-bottom:2px; ">
+                    <a id="CreateTask" style="text-decoration: none;" href="/UserTasks/CreateTaskByDateTime?taskDate=@(Model.Date.ToShortDateString()+" "+ i.ToString()+":00")" title="Создать задачу!">@i:00</a>
+                    @*<a id="CreateTask" style="text-decoration: none;" href="/UserTasks/CreateTaskByDateTime?taskDate=@(Model.StartDate.AddDays(+2).ToShortDateString() + " " + i.ToString() + ":00")" title="Создать задачу!">@i:00</a>*@
+                </div>
+            }
+        }
+        <b>------------------------------------------------------------------------------------------------</b>
+    </div>
+    @*Задачи не привязаны к времени*@
+    <div style="float:right; ">
+        <b><a href="/UserTasks/CreateTaskByDateTime?taskDate=@Model.Date.ToShortDateString()" style="color:red; text-decoration:none;">+ Создать задачу</a></b><br />
+        @foreach (UserTaskViewModel t in Model.Tasks)
+            {
+            <div id="TaskCalendar" style="width:400px; height:33px; background-color:#B0DCE0; margin-bottom:2px; margin-top:2px; ">
+                &nbsp;
+                <img width="24" height="24" src="@t.CategoryPicture" />
+                &nbsp;
+                <div id="priorityStyle" style="width:16px; display:inline-block; border-radius: 70px;">@t.Priority</div>
+                &nbsp;
+                <a href="/UserTasks/Edit/@t.TaskId" style="text-decoration: none;" title="Изменить задачу!">@t.Name</a>
+                <input id="CheckboxDone_@t.TaskId" type="checkbox" data-target="/TasksCalendar/MarkTaskDone/@t.TaskId" />
+                <a href="/TasksCalendar/TaskMoveNonTime/@t.TaskId">transfer</a>
+            </div>
+        }
+
+        <br />
+        <br />
+        @*Сделанные задачи*@
+        <b>Выполненные задачи:</b><br />
+        @foreach (UserTaskViewModel t in Model.DoneTasks)
+            {
+            <div id="TaskCalendar" style="width:400px; height:33px; background-color:#B0DCE0; margin-bottom:2px; margin-top:2px; ">
+                &nbsp;
+                <img width="24" height="24" src="@t.CategoryPicture" />
+                &nbsp;
+                <div id="priorityStyle" style="width:16px; display:inline-block; border-radius: 70px;">@t.Priority</div>
+                &nbsp;
+                <a href="/UserTasks/Edit/@t.TaskId" style="text-decoration: line-through;" title="Изменить задачу!">@t.Name</a>
+                <input id="CheckboxDone_@t.TaskId" type="checkbox" checked data-target="/TasksCalendar/MarkTaskUndone/@t.TaskId" />
+            </div>
+        }
+
+    </div>
+
+</body>
+</html>
+
+
+
+
+
+
+
+
+
+@*@model todon.Models.UserTask
+
+@{
+    ViewData["Title"] = "TaskCalendar";
+}
+
+
+
+
+
+<h2>TaskCalendar</h2>
+
+<form asp-action="TaskCalendar">
+    <div class="form-horizontal">
+        <h4>UserTask</h4>
+        <hr />
+        <div asp-validation-summary="ValidationSummary.ModelOnly" class="text-danger"></div>
+        <div class="form-group">
+            <label asp-for="CategoryId" class="col-md-2 control-label"></label>
+            <div class="col-md-10">
+                <input asp-for="CategoryId" class="form-control" />
+                <span asp-validation-for="CategoryId" class="text-danger" />
+            </div>
+        </div>
+        <div class="form-group">
+            <label asp-for="DateActivate" class="col-md-2 control-label"></label>
+            <div class="col-md-10">
+                <input asp-for="DateActivate" class="form-control" />
+                <span asp-validation-for="DateActivate" class="text-danger" />
+            </div>
+        </div>
+        <div class="form-group">
+            <label asp-for="DateEnd" class="col-md-2 control-label"></label>
+            <div class="col-md-10">
+                <input asp-for="DateEnd" class="form-control" />
+                <span asp-validation-for="DateEnd" class="text-danger" />
+            </div>
+        </div>
+        <div class="form-group">
+            <label asp-for="DateStart" class="col-md-2 control-label"></label>
+            <div class="col-md-10">
+                <input asp-for="DateStart" class="form-control" />
+                <span asp-validation-for="DateStart" class="text-danger" />
+            </div>
+        </div>
+        <div class="form-group">
+            <label asp-for="Date_create" class="col-md-2 control-label"></label>
+            <div class="col-md-10">
+                <input asp-for="Date_create" class="form-control" />
+                <span asp-validation-for="Date_create" class="text-danger" />
+            </div>
+        </div>
+        <div class="form-group">
+            <label asp-for="Description" class="col-md-2 control-label"></label>
+            <div class="col-md-10">
+                <input asp-for="Description" class="form-control" />
+                <span asp-validation-for="Description" class="text-danger" />
+            </div>
+        </div>
+        <div class="form-group">
+            <label asp-for="Duration" class="col-md-2 control-label"></label>
+            <div class="col-md-10">
+                <input asp-for="Duration" class="form-control" />
+                <span asp-validation-for="Duration" class="text-danger" />
+            </div>
+        </div>
+        <div class="form-group">
+            <label asp-for="Name" class="col-md-2 control-label"></label>
+            <div class="col-md-10">
+                <input asp-for="Name" class="form-control" />
+                <span asp-validation-for="Name" class="text-danger" />
+            </div>
+        </div>
+        <div class="form-group">
+            <label asp-for="ParentId" class="col-md-2 control-label"></label>
+            <div class="col-md-10">
+                <input asp-for="ParentId" class="form-control" />
+                <span asp-validation-for="ParentId" class="text-danger" />
+            </div>
+        </div>
+        <div class="form-group">
+            <label asp-for="Period" class="col-md-2 control-label"></label>
+            <div class="col-md-10">
+                <input asp-for="Period" class="form-control" />
+                <span asp-validation-for="Period" class="text-danger" />
+            </div>
+        </div>
+        <div class="form-group">
+            <label asp-for="Picture" class="col-md-2 control-label"></label>
+            <div class="col-md-10">
+                <input asp-for="Picture" class="form-control" />
+                <span asp-validation-for="Picture" class="text-danger" />
+            </div>
+        </div>
+        <div class="form-group">
+            <label asp-for="Place" class="col-md-2 control-label"></label>
+            <div class="col-md-10">
+                <input asp-for="Place" class="form-control" />
+                <span asp-validation-for="Place" class="text-danger" />
+            </div>
+        </div>
+        <div class="form-group">
+            <label asp-for="Priority" class="col-md-2 control-label"></label>
+            <div class="col-md-10">
+                <input asp-for="Priority" class="form-control" />
+                <span asp-validation-for="Priority" class="text-danger" />
+            </div>
+        </div>
+        <div class="form-group">
+            <label asp-for="TaskType" class="col-md-2 control-label"></label>
+            <div class="col-md-10">
+                <input asp-for="TaskType" class="form-control" />
+                <span asp-validation-for="TaskType" class="text-danger" />
+            </div>
+        </div>
+        <div class="form-group">
+            <label asp-for="UserId" class="col-md-2 control-label"></label>
+            <div class="col-md-10">
+                <input asp-for="UserId" class="form-control" />
+                <span asp-validation-for="UserId" class="text-danger" />
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="Create" class="btn btn-default" />
+            </div>
+        </div>
+    </div>
+</form>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>*@
+

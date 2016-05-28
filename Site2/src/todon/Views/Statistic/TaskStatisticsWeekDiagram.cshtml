@@ -1,0 +1,57 @@
+﻿@using todon.ViewModels.Statistics
+@model StatisticsViewModel
+@{
+    ViewBag.Title = "TaskStatisticsWeekDiagram";
+}
+
+<!DOCTYPE html>
+
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <script type="text/javascript" src="http://www.chartjs.org/assets/Chart.js">
+    </script>
+
+    <title>TaskStatisticsMonthDiagram</title>
+</head>
+<body>
+    <br />
+    <br />
+    <div>
+        @*<b>Общее количество задач за месяц:@Model.MonthCount</b>*@<br />
+
+        <canvas id="canvas" height="300" width="500"></canvas>
+        <br /><br />
+        @*<canvas id="canvas2" height="300" width="500"></canvas>
+            <button id="add-btn">Add Data</button>*@
+        @*@Html.CreateChart("myCanvas", Model.Chart)*@
+
+    </div>
+    <script type="text/javascript" src="http://code.jquery.com/jquery-2.1.4.min.js"></script>
+    @*<script src="~/js/app.js"></script>*@
+            <script>
+                    $(function () {
+
+                            var dataC = {
+                labels: ["Пн", "Вт", "Ср","Чт","Пт","Сб","Вс"],
+                datasets:
+                 [
+                    {
+                        fillColor: "rgba(172,194,132,0.4)",
+                        strokeColor: "#ACC26D",
+                        pointColor: "#fff",
+                        pointStrokeColor: "#9DB86D",
+                        data: [@Model.listDoneTasks[0],@Model.listDoneTasks[1],@Model.listDoneTasks[2], @Model.listDoneTasks[3], @Model.listDoneTasks[4], @Model.listDoneTasks[5], @Model.listDoneTasks[6]]
+                        //data: [2,3,0, 1, 0, 1, 2]
+                    }
+                 ]
+            }
+        var cv = document.getElementById('canvas').getContext('2d');
+
+        new Chart(cv).Line(dataC);
+
+        });
+            </script>
+</body>
+</html>

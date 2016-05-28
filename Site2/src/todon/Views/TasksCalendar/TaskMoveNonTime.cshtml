@@ -1,0 +1,37 @@
+﻿@using todon.ViewModels.UserTasks
+@model UserTaskViewModel
+@{
+    ViewBag.Title = "TaskMove";
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <script src="~/js/jquery-1.8.2.js"></script>
+    <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.4/jquery.min.js"></script>
+    <script type="text/javascript" src="~/js/cron/jquery-cron.js"></script>
+
+    <script src="~/js/custom_duration.js"></script>
+
+    <link type="text/css" href="~/js/cron/jquery-cron.css" rel="stylesheet" />
+
+
+    <title>TaskMove</title>
+</head>
+<body>
+    <br />
+    <br />
+    <div>
+        <form action="/TasksCalendar/SaveTaskMoveNonTime/@Model.TaskId" method="post">
+            <input type="radio" name="moveValue" value="1d" checked />Перенести на завтра<br />
+            <input type="radio" name="moveValue" value="2d" />Перенести на послезавтра<br />
+            <input type="radio" name="moveValue" value="7d" />Перенести на неделю<br />
+            <input type="radio" name="moveValue" value="0" />Другое: <input id="TaskDuration" name="userMoveValue" type="text" />Переносить можно только на дни(Например, 3d)<br />
+            <input id="Submit1" type="submit" value="Move" onclick="return checkDateVal($('#TaskDuration'));" />
+            <input id="Button1" type="button" value="Return" />
+        </form>
+    </div>
+</body>
+</html>

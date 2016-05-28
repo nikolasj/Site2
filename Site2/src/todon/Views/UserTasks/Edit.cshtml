@@ -1,0 +1,117 @@
+@using todon.ViewModels.UserTasks
+@model UserTaskViewModel
+@{
+    ViewData["Title"] = "Edit";
+}
+
+<h2>Edit</h2>
+<head>
+    <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.js"></script>
+    <script type="text/javascript" src="~/js/cron/jquery-cron.js"></script>
+
+    <script src="~/js/custom_validation_duration.js"></script>
+    <script src="~/js/custom_period.js"></script>
+
+    <script asp-src-include="~/js/calendarPeriodForCreateTask.js"></script>
+    <script src="~/js/checkboxCalendarButton.js"></script>
+    <link type="text/css" href="~/js/cron/jquery-cron.css" rel="stylesheet" />
+</head>
+<form asp-action="Edit">
+    <div class="form-horizontal">
+        <h4>UserTask</h4>
+        <hr />
+        <div asp-validation-summary="ValidationSummary.All" class="text-danger"></div>
+        <div class="form-group" style="display:none">
+            <label asp-for="TaskId" class="col-md-2 control-label"></label>
+            <div class="col-md-10">
+                <input asp-for="TaskId" class="form-control" />
+                <span asp-validation-for="TaskId" class="text-danger" />
+            </div>
+        </div>
+        <div class="form-group">
+            <label asp-for="Name" class="col-md-2 control-label"></label>
+            <div class="col-md-10">
+                <input asp-for="Name" class="form-control" />
+                <span asp-validation-for="Name" class="text-danger" />
+            </div>
+        </div>
+        <div class="form-group">
+            <label asp-for="CategoryName" class="col-md-2 control-label"></label>
+            <div class="col-md-10">
+                <select asp-for="CategoryId" class="form-control" asp-items="@Model.Categories"></select>
+            </div>
+        </div>
+        <div class="form-group">
+            <label asp-for="TaskTypeName" class="col-md-2 control-label"></label>
+            <div class="col-md-10">
+                <select asp-for="TaskType" id="TaskType" class="form-control" asp-items="@Model.TaskTypes"></select>
+            </div>
+        </div>
+        <div class="form-group">
+            <label asp-for="DateStart" class="col-md-2 control-label"></label>
+            <div class="col-md-10">
+                <input asp-for="DateStart" id="TaskDataStart" class="form-control" type="datetime-local" value="@Model.DateStartStr"/>
+                <span asp-validation-for="DateStart" class="text-danger" />
+            </div>
+        </div>
+        <div class="form-group">
+            <label asp-for="DateEnd" class="col-md-2 control-label"></label>
+            <div class="col-md-10">
+                <input asp-for="DateEnd" id="TaskDataEnd" type="datetime-local" class="form-control" value="@Model.DateEndStr"/>
+                <span asp-validation-for="DateEnd" class="text-danger" />
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label asp-for="Duration" class="col-md-2 control-label"></label>
+            <div class="col-md-10">
+                <input asp-for="DurationStr" id="TaskDuration" class="form-control" name="TaskDuration"/>
+                <span asp-validation-for="Duration" class="text-danger" />
+            </div>
+        </div>
+        <div class="form-group">
+            <label asp-for="Description" class="col-md-2 control-label"></label>
+            <div class="col-md-10">
+                <input asp-for="Description" class="form-control" />
+                <span asp-validation-for="Description" class="text-danger" />
+            </div>
+        </div>
+        <div class="form-group">
+            <label asp-for="Period" class="col-md-2 control-label"></label>
+            <div class="col-md-10">
+                <input id="TaskPeriod" type="hidden" name="TaskPeriod" value="@Model.Period" /><div id="TaskPeriodDiv"></div>
+            </div>
+        </div>
+        <div class="form-group">
+            <label asp-for="ParentName" class="col-md-2 control-label"></label>
+            <div class="col-md-10">
+                <select asp-for="ParentId" class="form-control" asp-items="@Model.Parents"></select>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label asp-for="Place" class="col-md-2 control-label"></label>
+            <div class="col-md-10">
+                <input asp-for="Place" class="form-control" />
+                <span asp-validation-for="Place" class="text-danger" />
+            </div>
+        </div>
+        <div class="form-group">
+            <label asp-for="PriorityName" class="col-md-2 control-label"></label>
+            <div class="col-md-10">
+                <select asp-for="Priority" class="form-control" asp-items="@Model.Priorities"></select>
+            </div>
+        </div>
+
+            <div class="form-group">
+                <div class="col-md-offset-2 col-md-10">
+                    <input type="submit" value="Save" class="btn btn-default" />
+                </div>
+            </div>
+        </div>
+</form>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+

@@ -1,0 +1,30 @@
+﻿@using todon.ViewModels.Statistics
+@model StatisticsViewModel
+@{
+    ViewBag.Title = "TaskStatisticsGetNamesByDayNum";
+}
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>TaskStatisticsGetNamesByDayNum</title>
+</head>
+<body>
+    <br />
+    <br />
+    <div>
+        <table>
+
+            @foreach (var d in Model.DoneTasksNames)
+            {
+                <tr>
+                    <td><b>@d.Key</b></td>
+                    <td><b><a href="/UserTasks/Details/@d.Key">@d.Value</a></b></td>
+                </tr>
+            }
+
+        </table>
+    </div>
+</body>
+</html>

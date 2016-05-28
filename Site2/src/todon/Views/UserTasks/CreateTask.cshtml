@@ -1,0 +1,56 @@
+﻿@using todon.ViewModels.UserTasks
+@model UserTaskViewModel
+@{
+    ViewBag.Title = "CreateTask";
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+
+    <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.js"></script>
+    <script type="text/javascript" src="~/js/cron/jquery-cron.js"></script>
+
+    <script src="~/js/custom_duration.js"></script>
+    <script src="~/js/custom_validation_duration.js"></script>
+    <script src="~/js/custom_period.js"></script>
+    <script src="~/js/calendarPeriodForCreateTask.js"></script>
+    <script src="~/js/checkboxCalendarButton.js"></script>
+    <link type="text/css" href="~/js/cron/jquery-cron.css" rel="stylesheet" />
+
+    <title>CreateTask</title>
+</head>
+<body>
+    <br />
+    <br />
+    <div>
+        <form action="/UserTasks/SaveTask" method="post">
+            <b> Наименование:</b>&nbsp;<input class="form-control" id="TaskName" type="text" name="TaskName" />
+            <b>Приоритет:</b>&nbsp;<select asp-for="Priority" class="form-control" asp-items="Model.Priorities"></select>
+
+            <b>Тип:</b>&nbsp;<select asp-for="TaskType" id="TaskType" class="form-control" asp-items="Model.TaskTypes"></select>
+            <b><span id="periodLabel">Период:</span></b>&nbsp; <input id="TaskPeriod" type="hidden" name="TaskPeriod" value="@Model.Period" /><div id="TaskPeriodDiv"></div><br />
+            <b><span id="dateStartLabel">Дата начала:</span></b>
+            <input id="TaskDataStart" style="display:none;" type="datetime-local" class="form-control" name="TaskDataStart" value="@Model.DateStartStr">
+            <b><span id="dateEndLabel">Дата окончания:</span></b>
+            <input id="TaskDataEnd" style="display:none;" type="datetime-local" class="form-control" name="TaskDataEnd">
+            <b>Продолжительность:</b>&nbsp;<input class="form-control" id="TaskDuration" type="text" name="TaskDuration" />
+            <b>Категория:</b><select asp-for="CategoryId" class="form-control" asp-items="Model.Categories"></select>
+            <b>Родитель:</b> <select asp-for="ParentId" class="form-control" asp-items="Model.Parents"></select>
+
+            @*<input id="CheckboxPeriod" type="checkbox" name="CheckboxPeriod" checked/>*@
+
+            <b>Место:</b>&nbsp;<input class="form-control" id="TaskPlace" type="text" name="TaskPlace" />
+            @*<b> Картинка:</b>&nbsp;<input class="form-control" id="TaskPicture" type="text" name="TaskPicture" value="@Model.Picture" />*@
+            <b>Описание:</b>&nbsp;<br /><textarea class="form-control" id="TaskDescription" rows="2" cols="20" name="TaskDescription"></textarea>
+
+            <input class="btn btn-primary" id="Save" type="submit" value="save" name="btnResult" />
+            <input class="btn btn-primary" id="Cancel" type="submit" value="cancel" name="btnResult" />
+
+
+        </form>
+    </div>
+</body>
+</html>

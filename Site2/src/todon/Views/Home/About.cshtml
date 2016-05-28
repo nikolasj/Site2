@@ -1,0 +1,18 @@
+﻿
+@{
+    ViewData["Title"] = "About";
+}
+<h2> Upload file to server</h2>
+
+@*@using (Html.BeginForm("UploadFile", "Home", FormMethod.Post, new { enctype = "multipart/form-data" }))
+{*@
+
+    @*<fieldset>
+        <input type="file" name="file" id="file" />
+        <input type="submit" value="Upload" />
+        </fieldset>*@
+        @*}*@
+<form asp-action="Upload" enctype="multipart/form-data" method="post">
+        Select a file <input type='file' name='file' />
+        <input type="submit" value="Upload" />
+</form>

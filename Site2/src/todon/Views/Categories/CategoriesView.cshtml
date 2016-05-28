@@ -1,0 +1,111 @@
+﻿@using todon.ViewModels.Categories
+@model CategoriesListViewModel
+
+@{
+    ViewData["Title"] = "CategoriesView";
+}
+<!DOCTYPE html>
+
+<html>
+<head>
+     <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width" />
+    <title>CategoryView</title>
+</head>
+<body>
+    <div>
+        <br />
+        <br />
+        <b>Public category:</b><br />
+        <ul class="list-unstyled">
+            @foreach (CategoryViewModel u in Model.Categories)
+            {
+
+                if ((u.ParentID == null|| u.ParentID==0) && u.UserId == null)
+                {
+                    <li>
+                        @if (u.IsEditable)
+                        {
+                            <a asp-action="Edit" asp-route-id="@u.CategoryID" style="text-decoration:none">@u.Name</a>
+                        }
+                        else
+                        {
+                            @u.Name;
+                        }
+                        <img class="img-rounded" src="@u.PictureFullPath" width="25" height="25">
+                    </li>
+                    foreach (CategoryViewModel c in Model.Categories)
+                    {
+
+                        if (c.ParentID == u.CategoryID  )
+                        {
+                            <li>
+                                <text>------</text>
+                                @if (c.IsEditable)
+                                {
+                                    <a asp-action="Edit" asp-route-id="@u.CategoryID" style="text-decoration:none">@c.Name</a>
+                                }
+                                else
+                                {
+                                    @u.Name;
+                                }
+                                <img class="img-rounded" src="@c.PictureFullPath" width="25" height="25">
+                            </li>
+                        }
+                        
+                    }
+
+                }
+
+            }
+        </ul>
+    </div>
+    <div>
+    @if (Model.IsEditable)
+    {
+        <b>User category:</b><br />
+    }
+    else
+    { }
+        <ul class="list-unstyled">
+            @foreach (CategoryViewModel u in Model.Categories)
+            {
+
+                if (u.ParentID == 0 && u.UserId != null)
+                {
+                    <li>
+                        <a asp-action="Edit" asp-route-id="@u.CategoryID" style="text-decoration:none">@u.Name</a>
+                        <img class="img-rounded" src="@u.PictureFullPath" width="25" height="25">
+                    </li>
+                    foreach (CategoryViewModel c in Model.Categories)
+                    {
+
+                        if (c.ParentID == u.CategoryID)
+                        {
+                            <li>
+                                <text>------</text>
+                                <a asp-action="Edit" asp-route-id="@c.CategoryID" style="text-decoration:none">@c.Name</a>
+                                <img class="img-rounded" src="@c.PictureFullPath" width="25" height="25">
+                            </li>
+                        }
+                    }
+                }
+
+            }
+        </ul>
+        @*<b><a class="btn btn-primary" href="/Category/Create" style=" background #AEAFB4; color:red; text-decoration:none;">+ Create category</a></b>*@
+    </div>
+    @if (Model.IsEditable)
+    {
+    <div>
+        <a asp-action="Create">Create category</a>
+    </div>
+    }
+    else
+    {
+    <div>
+        <a asp-action="CreatePublic">Create public category</a>
+    </div>
+    }
+</body>
+</html>

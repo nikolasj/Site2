@@ -1,0 +1,68 @@
+﻿@*@{
+    ViewBag.Title = "Async File Upload";
+}
+<head>
+    <script type="text/javascript" src="http://code.jquery.com/jquery-2.1.4.min.js"></script>
+</head>
+<h2>Async File Upload</h2>
+
+@using (Ajax.BeginForm("AsyncUpload", "Upload", new AjaxOptions() { HttpMethod = "POST" }, new { enctype = "multipart/form-data" }))
+{
+    @Html.AntiForgeryToken()
+    <input type="file" name="files" id="fu1" />
+    <input type="submit" value="Upload File" />
+
+}
+
+<div class="progress">
+    <div class="progress-bar">0%</div>
+</div>
+<div id="status"></div>
+<style>
+    .progress {
+        position: relative;
+        width: 400px;
+        border: 1px solid #ddd;
+        padding: 1px;
+    }
+
+    .progress-bar {
+        width: 0px;
+        height: 20px;
+        background-color: #57be65;
+    }
+</style>
+@section scripts{
+    <script src="http://malsup.github.com/jquery.form.js"></script>
+    <script>
+  (function () {
+  var bar = $('.progress-bar');
+  var percent = $('.progress-bar');
+  var status = $('#status');
+
+  $('form').ajaxForm({
+  beforeSend: function () {
+  status.empty();
+  var percentValue = '0%';
+  bar.width(percentValue);
+  percent.html(percentValue);
+  },
+  uploadProgress: function (event, position, total, percentComplete) {
+  var percentValue = percentComplete + '%';
+  bar.width(percentValue);
+  percent.html(percentValue);
+  },
+  success: function (d) {
+  var percentValue = '100%';
+  bar.width(percentValue);
+  percent.html(percentValue);
+  $('#fu1').val('');
+  alert(d);
+  },
+  complete: function (xhr) {
+  status.html(xhr.responseText);
+  }
+  });
+  })();
+    </script>
+}*@

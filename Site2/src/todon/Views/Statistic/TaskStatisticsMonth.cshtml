@@ -1,0 +1,48 @@
+﻿@using todon.ViewModels.Statistics
+@model StatisticsViewModel
+@{
+    ViewBag.Title = "TaskStatisticsMonth";
+}
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>TaskStatisticsMonth</title>
+</head>
+<body>
+    <br />
+    <br />
+    <div>
+        @*<a href="/Statistic/TaskStatisticsMonthDiagram">Посмотреть график</a>*@
+        <table>
+
+            @foreach (var d in Model.DoneTasks)
+            {
+                <tr>
+                    <td><b>@d.Key</b></td>
+                    <td>
+                        @if (d.Value == Model.BestDay)
+                        {
+                            <b><a href="/Statistic/TaskStatisticsGetNamesByDayNum/@d.Key" style="background-color:green">@d.Value</a></b>
+                        }
+                        else
+                        {
+                            if (d.Value == Model.WorstDay)
+                            {
+                                <b><a href="/Statistic/TaskStatisticsGetNamesByDayNum/@d.Key" style="background-color:red">@d.Value</a></b>
+                            }
+                            else
+                            {
+                                <b><a href="/Statistic/TaskStatisticsGetNamesByDayNum/@d.Key">@d.Value</a></b>
+                            }
+                        }
+                    </td>
+
+                </tr>
+            }
+        </table>
+        <b>---------</b>
+    </div>
+</body>
+</html>

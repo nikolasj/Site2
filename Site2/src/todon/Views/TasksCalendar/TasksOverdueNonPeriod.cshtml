@@ -1,0 +1,33 @@
+﻿@using todon.ViewModels.UserTasks
+@model UserTaskListViewModel
+@{
+    ViewBag.Title = "TasksView";
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <script src="~/js/jquery-1.9.1.js"></script>
+    <script src="~/js/PriorityStyle.js"></script>
+
+    <title>TaskListView</title>
+</head>
+<body>
+    <br />
+    <br />
+
+    <div>
+        <br />
+        @foreach (UserTaskViewModel t in Model.Tasks)
+        {
+            <div id="priorityStyle" style="width:16px; display:inline-block; border-radius: 70px;">@t.Priority</div>
+            <b>
+                <a class="btn btn-danger" href="/UserTasks/Edit/@t.TaskId">@t.Name</a>
+                @t.DateStart.Value.ToShortDateString()&nbsp;-&nbsp;<a href="/TasksCalendar/TaskMoveNonTime/@t.TaskId">Перенести</a>
+            </b><br />
+        }
+    </div>
+</body>
+</html>

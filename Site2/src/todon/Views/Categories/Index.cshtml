@@ -1,0 +1,50 @@
+@model IEnumerable<todon.ViewModels.Categories.CategoryViewModel>
+@*<a href="~/controllers/categoriescontroller.cs">~/controllers/categoriescontroller.cs</a>*@
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h2>Index</h2>
+
+<p>
+    <a asp-action="Create">Create New</a>
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.Name)
+        </th>
+        <th>
+           Parent
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Picture)
+        </th>
+        <th>
+           Owner
+        </th>
+        <th></th>
+    </tr>
+    
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.Name)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.ParentName)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Picture)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Owner)
+        </td>
+        <td>
+            <a asp-action="Edit" asp-route-id="@item.CategoryID">Edit</a> |
+            <a asp-action="Details" asp-route-id="@item.CategoryID">Details</a> |
+            <a asp-action="Delete" asp-route-id="@item.CategoryID">Delete</a>
+        </td>
+    </tr>
+}
+</table>
